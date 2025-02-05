@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>maimai DX 数据提交</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: radial-gradient(circle at center, #3b1e7a, #1a0d3a);
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: #fff;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 添加动态背景效果 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        rgba(92, 92, 255, 0.1) 25%, 
+        transparent 25%, 
+        transparent 50%, 
+        rgba(92, 92, 255, 0.1) 50%, 
+        rgba(92, 92, 255, 0.1) 75%, 
+        transparent 75%);
+      background-size: 50px 50px;
+      animation: animateBg 20s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes animateBg {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 30px rgba(92, 92, 255, 0.3);
+      position: relative;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 0 0 30px;
+      font-size: 2.5em;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(92, 92, 255, 0.5);
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #ff69f9, #7d6fff);
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+      color: #c8c8ff;
+      padding-left: 30px;
+      position: relative;
+    }
+
+    label i {
+      position: absolute;
+      left: 0;
+      top: 2px;
+      color: #7d6fff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 2px solid #4a4a8f;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #7d6fff;
+      box-shadow: 0 0 15px rgba(125, 111, 255, 0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #ff69f9 0%, #7d6fff 100%);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(125, 111, 255, 0.4);
+    }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        transparent, 
+        rgba(255,255,255,0.2), 
+        transparent);
+      transform: rotate(45deg);
+      animation: buttonGlow 3s infinite;
+    }
+
+    @keyframes buttonGlow {
+      0% { left: -50%; }
+      100% { left: 150%; }
+    }
+
+    .message {
+      text-align: center;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .success {
+      background: rgba(76, 175, 80, 0.2);
+      border: 2px solid #4CAF50;
+      color: #4CAF50;
+    }
+
+    .error {
+      background: rgba(244, 67, 54, 0.2);
+      border: 2px solid #f44336;
+      color: #f44336;
+    }
+
+    .back-btn {
+      display: block;
+      width: fit-content;
+      margin: 25px auto 0;
+      padding: 10px 25px;
+      background: linear-gradient(135deg, #4a4a8f 0%, #3b1e7a 100%);
+      border-radius: 6px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid #5a5aaa;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(92, 92, 255, 0.3);
+      color: #fff;
+    }
+
+    /* 输入框数字调整按钮样式 */
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>maimai DX 数据提交</h2>
+    <form id="dataForm">
+      <div class="form-group">
+        <label for="name"><i class="fas fa-gamepad"></i> 游戏ID：</label>
+        <input type="text" id="name" placeholder="请输入游戏ID" required>
+      </div>
+
+      <div class="form-group">
+        <label for="rating"><i class="fas fa-chart-line"></i> DX Rating：</label>
+        <input type="number" id="rating" placeholder="请输入DX Rating" required>
+      </div>
+
+      <div class="form-group">
+        <label for="rank"><i class="fas fa-trophy"></i> 当前段位：</label>
+        <input type="text" id="rank" placeholder="请输入当前段位" required>
+      </div>
+
+      <div class="form-group">
+        <label for="pc"><i class="fas fa-headset"></i> 游戏次数：</label>
+        <input type="number" id="pc" placeholder="请输入游戏次数" required>
+      </div>
+
+      <button type="submit">提交数据 <i class="fas fa-arrow-up"></i></button>
+    </form>
+    <div class="message" id="message"></div>
+
+    <a href="index.html" class="back-btn"><i class="fas fa-home"></i> 返回首页</a>
+  </div>
+
+  <script>
+    // 保持原有JavaScript逻辑不变，仅调整交互反馈
+    document.getElementById('dataForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const rating = parseFloat(document.getElementById('rating').value);
+      const rank = document.getElementById('rank').value.trim();
+      const pc = parseInt(document.getElementById('pc').value, 10);
+
+      if (!name || !rank || isNaN(rating) || isNaN(pc)) {
+        displayMessage("⚠️ 请填写完整信息！", "error");
+        return;
+      }
+
+      const postData = { name, rating, rank, pc };
+
+      try {
+        const response = await fetch('https://pit5mbkzoy.hzh.sealos.run/post-getdata', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(postData)
+        });
+
+        const result = await response.json();
+
+        if (result.code === 200) {
+          displayMessage("🎉 数据提交成功！", "success");
+          document.getElementById('dataForm').reset();
+        } else {
+          displayMessage(`❌ 错误：${result.message}`, "error");
+        }
+      } catch (error) {
+        displayMessage("⚠️ 网络连接异常，请稍后重试", "error");
+      }
+    });
+
+    function displayMessage(msg, type) {
+      const messageEl = document.getElementById('message');
+      messageEl.textContent = msg;
+      messageEl.className = `message ${type}`;
+      setTimeout(() => messageEl.textContent = '', 3000);
+    }
+  </script>
+</body>
+</html>
