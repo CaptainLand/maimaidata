@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>主页面 - maimai数据查询系统</title>
+  <style>
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), /* 调亮背景遮罩 */
+                  url('mai.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 0px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 3rem;
+      text-shadow: 0 4px 6px rgba(0,0,0,0.5); /* 增强文字阴影 */
+      transform: translateY(-50px);
+      opacity: 0;
+      animation: slideDown 0.8s ease-out 0.3s forwards;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem 2.5rem;
+      width: 100%;
+      border-radius: 15px;
+      text-decoration: none;
+      font-size: 1.3rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* 增强按钮阴影 */
+      background: rgba(255,255,255,0.2); /* 调亮按钮背景 */
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3); /* 调亮按钮边框 */
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      background: rgba(255,255,255,0.3); /* 调亮悬停背景 */
+    }
+
+    .btn i {
+      width: 30px;
+      text-align: center;
+    }
+
+    /* 不同按钮颜色 */
+    .pc { color: #439c46; border-color: #3f8f40; }
+    .rating { color: #2196F3; border-color: #2196F3; }
+    .players { color: #FF9800; border-color: #FF9800; }
+    .submit { color: #9C27B0; border-color: #9C27B0; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .btn {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>maimai数据查询系统</h1>
+    
+    <!-- 显示已登录用户信息 -->
+    <div id="user-info"></div>
+    
+    <div class="btn-container">
+      <a class="btn pc" href="pc.html"><i class="fas fa-desktop"></i> PC数排行榜</a>
+      <a class="btn rating" href="rating.html"><i class="fas fa-chart-line"></i> DX Rating 排行榜</a>
+      <a class="btn players" href="data.html"><i class="fas fa-users"></i> 玩家数据</a>
+      <a class="btn submit" href="dataget.html"><i class="fas fa-upload"></i> 提交数据</a>
+    </div>
+  </div>
+
+  <script>
+    // 检查 localStorage 中是否存储了登录的用户信息
+    const username = localStorage.getItem('username');
+    if (username) {
+      // 如果用户已登录，显示用户名
+      document.getElementById('user-info').innerHTML = `<p>欢迎，${username}！</p>`;
+    } else {
+      // 如果没有登录，重定向到登录页面
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

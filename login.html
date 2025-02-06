@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>登录 - maimai数据查询系统</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #0069d9;
+    }
+    .message {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    p {
+      text-align: center;
+      margin-top: 15px;
+    }
+    a {
+      color: #28a745;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>登录</h2>
+    <form id="loginForm">
+      <input type="text" id="name" placeholder="用户名" required>
+      <input type="password" id="password" placeholder="密码" required>
+      <button type="submit">登录</button>
+    </form>
+    <div class="message" id="message"></div>
+    <p>没有账号？<a href="reg.html">立即注册</a></p>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const password = document.getElementById('password').value;
+      const messageEl = document.getElementById('message');
+
+      try {
+        const res = await fetch('https://pit5mbkzoy.hzh.sealos.run/post-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, password })
+        });
+        const data = await res.json();
+        if (data.code === 200) {
+          // 登录成功后将用户名存储在 localStorage
+          localStorage.setItem('username', name);
+          messageEl.textContent = '登录成功！';
+          messageEl.style.color = 'green';
+          // 登录成功后跳转到主页面
+          window.location.href = 'index.html';
+        } else {
+          messageEl.textContent = data.message || '登录失败';
+          messageEl.style.color = 'red';
+        }
+      } catch (error) {
+        messageEl.textContent = '请求失败：' + error.message;
+        messageEl.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>

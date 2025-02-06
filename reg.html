@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>注册 - maimai数据查询系统</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #218838;
+    }
+    .message {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    p {
+      text-align: center;
+      margin-top: 15px;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>注册</h2>
+    <form id="registerForm">
+      <input type="text" id="name" placeholder="用户名" required>
+      <input type="password" id="password" placeholder="密码" required>
+      <button type="submit">注册</button>
+    </form>
+    <div class="message" id="message"></div>
+    <p>已有账号？<a href="login.html">点击登录</a></p>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const password = document.getElementById('password').value;
+      const messageEl = document.getElementById('message');
+
+      try {
+        const res = await fetch('https://pit5mbkzoy.hzh.sealos.run/post-reg', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, password })
+        });
+        const data = await res.json();
+        if (data.code === 200) {
+          messageEl.textContent = '注册成功！';
+          messageEl.style.color = 'green';
+          // 可在注册成功后重定向到登录页，例如：
+          // window.location.href = "login.html";
+        } else {
+          messageEl.textContent = data.message || '注册失败';
+          messageEl.style.color = 'red';
+        }
+      } catch (error) {
+        messageEl.textContent = '请求失败：' + error.message;
+        messageEl.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>
