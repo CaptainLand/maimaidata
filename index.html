@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>主页面 - maimai数据查询系统</title>
+  <title>未登录状态 - maimai查询系统</title>
   <style>
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
@@ -10,7 +10,7 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), /* 调亮背景遮罩 */
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
                   url('mai.png') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -31,7 +31,7 @@
     h1 {
       font-size: 3.5rem;
       margin-bottom: 3rem;
-      text-shadow: 0 4px 6px rgba(0,0,0,0.5); /* 增强文字阴影 */
+      text-shadow: 0 4px 6px rgba(0,0,0,0.5);
       transform: translateY(-50px);
       opacity: 0;
       animation: slideDown 0.8s ease-out 0.3s forwards;
@@ -57,28 +57,21 @@
       font-size: 1.3rem;
       font-weight: bold;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* 增强按钮阴影 */
-      background: rgba(255,255,255,0.2); /* 调亮按钮背景 */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      background: rgba(255,255,255,0.2);
       backdrop-filter: blur(10px);
-      border: 2px solid rgba(255,255,255,0.3); /* 调亮按钮边框 */
+      border: 2px solid rgba(255,255,255,0.3);
     }
 
     .btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      background: rgba(255,255,255,0.3); /* 调亮悬停背景 */
+      background: rgba(255,255,255,0.3);
     }
 
-    .btn i {
-      width: 30px;
-      text-align: center;
-    }
-
-    /* 不同按钮颜色 */
-    .pc { color: #439c46; border-color: #3f8f40; }
-    .rating { color: #2196F3; border-color: #2196F3; }
-    .players { color: #FF9800; border-color: #FF9800; }
-    .submit { color: #9C27B0; border-color: #9C27B0; }
+    /* 按钮不同颜色 */
+    .reg { color: #28a745; border-color: #28a745; }
+    .login { color: #007bff; border-color: #007bff; }
 
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -105,15 +98,12 @@
   </style>
 </head>
 <body>
-  <!-- 主要内容，向下移动 400px -->
   <div class="content">
-    <h1>maimai数据查询系统</h1>
+    <h1>欢迎来到maimai查询系统</h1>
     
     <div class="btn-container">
-      <a class="btn pc" href="pc.html"><i class="fas fa-desktop"></i> PC数排行榜</a>
-      <a class="btn rating" href="rating.html"><i class="fas fa-chart-line"></i> DX Rating 排行榜</a>
-      <a class="btn players" href="data.html"><i class="fas fa-users"></i> 玩家数据</a>
-      <a class="btn submit" href="dataget.html"><i class="fas fa-upload"></i> 提交数据</a>
+      <a class="btn reg" href="reg.html"><i class="fas fa-user-plus"></i> 创建账号</a>
+      <a class="btn login" href="login.html"><i class="fas fa-sign-in-alt"></i> 登录</a>
     </div>
   </div>
 </body>
