@@ -4,114 +4,242 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rating 排行榜</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* 全局样式 */
+    :root {
+      --primary: #6366f1;
+      --secondary: #4f46e5;
+      --accent: #f59e0b;
+      --background: #f8fafc;
+      --text: #1e293b;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f2f2f2;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)),
+                  url('bg.png') center/cover fixed;
       margin: 0;
-      padding: 20px;
+      padding: 2rem;
+      min-height: 100vh;
     }
+
     .container {
-      max-width: 600px;
+      max-width: 800px;
       margin: 0 auto;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
       overflow: hidden;
+      transition: transform 0.3s ease;
     }
+
+    .container:hover {
+      transform: translateY(-2px);
+    }
+
     .header {
-      background-color: #007bff;
-      color: #fff;
-      padding: 15px;
-      font-size: 22px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 1.5rem;
+      font-size: 1.5rem;
       text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
     }
+
     .list {
       list-style: none;
       margin: 0;
-      padding: 0;
+      padding: 1rem 0;
     }
+
     .list-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 12px 20px;
-      border-bottom: 1px solid #eee;
+      padding: 1rem 2rem;
+      transition: all 0.2s ease;
+      position: relative;
     }
-    .list-item:last-child {
-      border-bottom: none;
+
+    .list-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 2rem;
+      right: 2rem;
+      height: 1px;
+      background: rgba(0,0,0,0.05);
     }
+
+    .list-item:hover {
+      background: rgba(249, 250, 251, 0.5);
+      transform: translateX(8px);
+    }
+
     .rank {
-      font-weight: bold;
+      font-weight: 600;
       width: 40px;
       text-align: center;
+      color: var(--primary);
+      font-feature-settings: "tnum";
     }
+
     .name {
       flex: 1;
-      margin-left: 10px;
+      margin-left: 1.5rem;
+      color: var(--text);
+      font-weight: 500;
     }
+
     .rating {
-      font-weight: bold;
-      width: 80px;
+      font-weight: 600;
+      width: 100px;
       text-align: right;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
     }
+
+    .rating::after {
+      content: "";
+      color: var(--accent);
+      font-size: 0.9em;
+    }
+
     .self {
-      color: #ff8c00;  /* 自己的标识，橙色 */
-      font-weight: bold;
+      color: var(--accent) !important;
+      font-weight: 700 !important;
     }
+
+    .list-item.self-highlight {
+      background: rgba(245, 158, 11, 0.08) !important;
+      box-shadow: inset 4px 0 0 var(--accent);
+      border-radius: 8px;
+      margin: 4px 1rem;
+    }
+
+    .list-item.self-highlight:hover {
+      background: rgba(245, 158, 11, 0.12) !important;
+    }
+
     .message {
+      padding: 2rem;
       text-align: center;
-      padding: 20px;
-      color: #666;
+      color: #64748b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
     }
+
+    .loading-spinner {
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 3px solid rgba(0,0,0,0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
     .back-link {
-      display: block;
-      text-align: center;
-      margin: 20px 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1.5rem auto;
+      padding: 0.75rem 1.5rem;
       text-decoration: none;
-      color: #007bff;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .container {
+        border-radius: 12px;
+      }
+      
+      .list-item {
+        padding: 1rem;
+      }
+      
+      .header {
+        font-size: 1.25rem;
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">Rating 排行榜</div>
+    <div class="header">
+      <i class="fas fa-trophy"></i>
+      Rating 排行榜
+    </div>
     <ul class="list" id="rankingList">
-      <li class="list-item message">正在加载数据...</li>
+      <li class="message">
+        <div class="loading-spinner"></div>
+        <div>正在加载数据...</div>
+      </li>
     </ul>
-    <a class="back-link" href="afterlogin.html">返回主页面</a>
+    <div style="text-align: center; padding: 1rem;">
+      <a class="back-link" href="afterlogin.html">
+        <i class="fas fa-arrow-left"></i>
+        返回主页面
+      </a>
+    </div>
   </div>
 
   <script>
-    // 获取当前登录用户的用户名
     const username = localStorage.getItem('username');
 
-    // 请求 Rating 排行榜接口
     fetch('https://pit5mbkzoy.hzh.sealos.run/get-rating')
       .then(response => {
-        if (!response.ok) {
-          throw new Error('网络错误：' + response.status);
-        }
+        if (!response.ok) throw new Error('网络错误：' + response.status);
         return response.json();
       })
       .then(result => {
         const listEl = document.getElementById('rankingList');
-        listEl.innerHTML = ''; // 清除加载提示
+        listEl.innerHTML = '';
 
         if (!result.success) {
-          listEl.innerHTML = '<li class="list-item message">数据加载失败：' + result.error + '</li>';
+          listEl.innerHTML = `
+            <li class="message">
+              <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #ef4444;"></i>
+              <div>数据加载失败：${result.error}</div>
+            </li>`;
           return;
         }
 
         const data = result.data;
-        // 遍历数据，生成列表项（假设后端已经按 rating 从高到低排序）
         data.forEach((item, index) => {
           const li = document.createElement('li');
           li.className = 'list-item';
-          
-          // 判断是否是当前登录的用户
           const isSelf = item.name === username;
+
+          if (isSelf) {
+            li.classList.add('self-highlight');
+          }
 
           li.innerHTML = `
             <span class="rank ${isSelf ? 'self' : ''}">${index + 1}</span>
@@ -124,7 +252,11 @@
       })
       .catch(error => {
         const listEl = document.getElementById('rankingList');
-        listEl.innerHTML = '<li class="list-item message">请求错误：' + error.message + '</li>';
+        listEl.innerHTML = `
+          <li class="message">
+            <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #ef4444;"></i>
+            <div>请求错误：${error.message}</div>
+          </li>`;
       });
   </script>
 </body>
