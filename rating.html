@@ -114,9 +114,9 @@
           const isSelf = item.name === username;
 
           li.innerHTML = `
-            <span class="rank">${index + 1}</span>
-            <span class="name ${isSelf ? 'self' : ''}">${item.name} ${isSelf ? '★' : ''}</span>
-            <span class="rating">${item.rating}</span>
+            <span class="rank ${isSelf ? 'self' : ''}">${index + 1}</span>
+            <span class="name ${isSelf ? 'self' : ''}">${item.name}</span>
+            <span class="rating ${isSelf ? 'self' : ''}">${item.rating}</span>
           `;
 
           listEl.appendChild(li);
