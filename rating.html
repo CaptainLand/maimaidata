@@ -56,6 +56,10 @@
       width: 80px;
       text-align: right;
     }
+    .self {
+      color: #ff8c00;  /* 自己的标识，橙色 */
+      font-weight: bold;
+    }
     .message {
       text-align: center;
       padding: 20px;
@@ -80,6 +84,9 @@
   </div>
 
   <script>
+    // 获取当前登录用户的用户名
+    const username = localStorage.getItem('username');
+
     // 请求 Rating 排行榜接口
     fetch('https://pit5mbkzoy.hzh.sealos.run/get-rating')
       .then(response => {
@@ -102,11 +109,16 @@
         data.forEach((item, index) => {
           const li = document.createElement('li');
           li.className = 'list-item';
+          
+          // 判断是否是当前登录的用户
+          const isSelf = item.name === username;
+
           li.innerHTML = `
             <span class="rank">${index + 1}</span>
-            <span class="name">${item.name}</span>
+            <span class="name ${isSelf ? 'self' : ''}">${item.name} ${isSelf ? '★' : ''}</span>
             <span class="rating">${item.rating}</span>
           `;
+
           listEl.appendChild(li);
         });
       })
