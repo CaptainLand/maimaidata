@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>玩家排行榜</title>
+  <title>玩家数据</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -40,6 +40,10 @@
     }
     tr:nth-child(even) {
       background-color: #f2f2f2;
+    }
+    .self {
+      color: #ff8c00;  /* 当前用户的橙色标识 */
+      font-weight: bold;
     }
     .back-btn {
       display: inline-block;
@@ -79,6 +83,8 @@
 
   <script>
     async function fetchPlayers() {
+      const username = localStorage.getItem('username'); // 获取当前登录用户的用户名
+
       try {
         const response = await fetch('https://pit5mbkzoy.hzh.sealos.run/get-data'); // 获取数据
         const result = await response.json();
@@ -89,11 +95,15 @@
         if (result.success && result.data.length > 0) {
           result.data.forEach(player => {
             const row = document.createElement('tr');
+
+            // 判断是否是当前登录的用户
+            const isSelf = player.name === username;
+
             row.innerHTML = `
-              <td>${player.name}</td>
-              <td>${player.rating}</td>
-              <td>${player.rank}</td>
-              <td>${player.pc}</td>
+              <td class="${isSelf ? 'self' : ''}">${player.name}</td>
+              <td class="${isSelf ? 'self' : ''}">${player.rating}</td>
+              <td class="${isSelf ? 'self' : ''}">${player.rank}</td>
+              <td class="${isSelf ? 'self' : ''}">${player.pc}</td>
             `;
             tableBody.appendChild(row);
           });
@@ -110,3 +120,4 @@
   </script>
 </body>
 </html>
+
