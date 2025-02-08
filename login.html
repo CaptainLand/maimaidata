@@ -3,63 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <title>登录 - maimai数据查询系统</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #6366f1;    /* 主色调 */
+      --secondary: #4f46e5;  /* 强调色 */
+      --accent: #f59e0b;     /* 强调色 */
+      --background: #f8fafc; /* 背景色 */
+      --text: #1e293b;       /* 主要文字 */
+    }
+
     body {
-      font-family: sans-serif;
-      background: #f0f0f0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)),
+                  url('bg.png') center/cover fixed;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
     }
+
     .container {
-      background: #fff;
-      padding: 20px 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      width: 300px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      width: 100%;
+      max-width: 400px;
+      transition: transform 0.3s ease;
     }
+
+    .container:hover {
+      transform: translateY(-2px);
+    }
+
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+      font-size: 1.75rem;
     }
+
     input {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
       box-sizing: border-box;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s ease;
     }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+      outline: none;
+    }
+
     button {
       width: 100%;
-      padding: 10px;
-      background: #007bff;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 1rem;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
     }
+
     button:hover {
-      background: #0069d9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
+
     .message {
-      margin-top: 10px;
+      margin-top: 1rem;
       text-align: center;
       font-size: 0.9rem;
+      padding: 0.75rem;
+      border-radius: 8px;
     }
+
+    .message.success {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .message.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+
     p {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 1.5rem;
+      color: var(--text);
     }
+
     a {
-      color: #28a745;
+      color: var(--primary);
       text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
     }
+
     a:hover {
+      color: var(--secondary);
       text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -82,6 +152,9 @@
       const password = document.getElementById('password').value;
       const messageEl = document.getElementById('message');
 
+      messageEl.textContent = '';
+      messageEl.classList.remove('success', 'error');
+
       try {
         const res = await fetch('https://pit5mbkzoy.hzh.sealos.run/post-login', {
           method: 'POST',
@@ -93,16 +166,17 @@
           // 登录成功后将用户名存储在 localStorage
           localStorage.setItem('username', name);
           messageEl.textContent = '登录成功！';
-          messageEl.style.color = 'green';
-          // 登录成功后跳转到主页面
-          window.location.href = 'afterlogin.html';
+          messageEl.classList.add('success');
+          setTimeout(() => {
+            window.location.href = 'afterlogin.html';
+          }, 1500);
         } else {
           messageEl.textContent = data.message || '登录失败';
-          messageEl.style.color = 'red';
+          messageEl.classList.add('error');
         }
       } catch (error) {
         messageEl.textContent = '请求失败：' + error.message;
-        messageEl.style.color = 'red';
+        messageEl.classList.add('error');
       }
     });
   </script>
