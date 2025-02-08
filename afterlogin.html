@@ -124,7 +124,7 @@
     const username = localStorage.getItem('username');
     if (username) {
       // 如果用户已登录，显示用户名
-      document.getElementById('user-info').innerHTML = `<p>欢迎，${username}！</p>`;
+      document.getElementById('user-info').innerHTML = `<p>欢迎来到maimai数据查询系统，${username}！</p>`;
     } else {
       // 如果没有登录，重定向到登录页面
       window.location.href = 'login.html';
